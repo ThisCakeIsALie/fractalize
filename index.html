@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=0.6, maximum-scale=0.6, user-scalable=no" />
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <script src="https://www.unpkg.com/hybrids@4.0.2/dist/hybrids.js"></script>
+        <script type="module" src="js/components/fractalControls.mjs"></script>
+        <script type="module" src="js/components/controlPoint.mjs"></script>
+        <script type="module" src="js/index.mjs"></script>
+    </head>
+    <body>
+        <fractal-controls id="fractal-controls">
+            <fractal-viewer id="fractal-viewer" class="background"></fractal-viewer>
+        </fractal-controls>
+        <hamburger-button id="#menu-button"></hamburger-button>
+        <p id="#help-text">Play with the <control-point></control-point> to generate other fractals (or check out the menu for more infos)</p>
+    </body>
+</html>
