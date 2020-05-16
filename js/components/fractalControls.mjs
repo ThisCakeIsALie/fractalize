@@ -2,6 +2,7 @@ const { html, define, children } = window.hybrids;
 import { FractalViewer } from './FractalViewer.mjs';
 import { domEffect } from './factories.mjs';
 import { listener } from './factories.mjs';
+import { CONTROL_POINT_SIZE } from '../constants.mjs';
 
 
 const cancelContextMenu = domEffect(({ viewers }) => {
@@ -26,29 +27,29 @@ const cancelContextMenu = domEffect(({ viewers }) => {
 
 
 const updateDragged = listener(document, 'mousemove', (host, e) => {
-    const { _activeViewer, _draggedPoint } = host;
+    const { _activeViewer: viewer, _draggedPoint: point } = host;
 
-    if (!_activeViewer || !_draggedPoint) {
+    if (!viewer || !point) {
         return;
     }
 
-    const { width, height } = _activeViewer.getBoundingClientRect();
+    const target = e.target;
+    if (target !== viewer) {
+        return;
+    }
     
-    const moveX = e.movementX / width;
-    const moveY = e.movementY / height;
-
     const newPoint = {
-        x: _draggedPoint.x + moveX,
-        y: _draggedPoint.y + moveY
+        x: e.offsetX / viewer.offsetWidth,
+        y: e.offsetY / viewer.offsetHeight,
     };
 
-    _activeViewer.removeControlPoint(_draggedPoint.x, _draggedPoint.y);
-    _activeViewer.addControlPoint(newPoint.x, newPoint.y);
+    viewer.removeControlPoint(point.x, point.y);
+    viewer.addControlPoint(newPoint.x, newPoint.y);
     host._draggedPoint = newPoint;
 });
 
 
-const clearDragged = listener(document, 'mouseup', (host, e) => {
+const clearDragged = listener(document, 'mouseup', (host, _) => {
     host._activeViewer = null;
     host._draggedPoint = null;
 });
@@ -75,7 +76,7 @@ const handleNewPoint = listener(document, 'mousedown', (host, e) => {
 });
 
 
-const renderControlPoints = (host, viewer) => {
+const renderControlPoints = viewer => {
     const pos = viewer.getBoundingClientRect();
     const { controlPoints } = viewer;
 
@@ -101,14 +102,20 @@ const renderControlPoints = (host, viewer) => {
             }
         };
 
+        const viewerTop = pos.top + window.scrollY;
+        const viewerLeft = pos.left + window.scrollY;
+
+        const pointTop = offsetY - CONTROL_POINT_SIZE / 2;
+        const pointLeft = offsetX - CONTROL_POINT_SIZE / 2;
+
         const style = {
             position: 'fixed',
-            top: pos.top + window.scrollY + offsetY - 8 + 'px',
-            left: pos.left + window.scrollX + offsetX - 8 + 'px',
+            top: viewerTop + pointTop + 'px',
+            left: viewerLeft + pointLeft + 'px',
         };
 
         return html`
-            <control-point onmousedown=${onMouseDown} style=${style}></control-point>
+            <control-point class="unselectable" onmousedown=${onMouseDown} style=${style}></control-point>
         `;
     });
 };
@@ -123,8 +130,17 @@ export const FractalControls = {
     handleNewPoint,
     viewers: children(FractalViewer),
     render: (host) => html`
+        <style>
+            .unselectable {
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -o-user-select: none;
+                user-select: none;
+            }
+        </style>
         <slot></slot>
-        ${host.viewers.map(viewer => renderControlPoints(host, viewer))}
+        ${host.viewers.map(viewer => renderControlPoints(viewer))}
     `
 };
 

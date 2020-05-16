@@ -1,3 +1,5 @@
+import { CONTROL_POINT_SIZE } from "../constants.mjs";
+
 const { html, define } = window.hybrids;
 
 export const ControlPoint = {
@@ -6,12 +8,12 @@ export const ControlPoint = {
             :host {
                 display: inline-block;
                 position: relative;
-                width: 16px;
-                height: 16px;
+                width: ${CONTROL_POINT_SIZE}px;
+                height: ${CONTROL_POINT_SIZE}px;
             }
 
-            :host[hidden] {
-                display: hidden;
+            :host([ hidden ]) {
+                display: none;
             }
 
             #innerCircle {
