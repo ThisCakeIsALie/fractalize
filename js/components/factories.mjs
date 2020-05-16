@@ -1,3 +1,5 @@
+const { property } = window.hybrids;
+
 export const method = fn => host => fn.bind(host, host);
 
 export const effect = fn => host => fn(host);
@@ -35,4 +37,9 @@ export const listener = (target, event, listener) => domEffect(host => {
     target.addEventListener(event, actualListener);
 
     return () => target.removeEventListener(event, actualListener);
+});
+
+export const observedProp = (initialValue, observerCallback, connectedCallback) => ({
+    ...property(initialValue, connectedCallback),
+    observe: observerCallback
 });

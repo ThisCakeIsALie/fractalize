@@ -1,11 +1,24 @@
 const { html, define, dispatch } = window.hybrids;
 import { method, domEffect } from './factories.mjs';
 import { calculateGameStep } from '../chaosGame.mjs';
+import { observedProp } from './factories.mjs';
 
 const addControlPoint = method((host, x, y) => {
     const oldPoints = host.controlPoints;
 
     host.controlPoints = [ ...oldPoints, { x, y } ];
+});
+
+const clear = method(host => {
+    const canvas = host.shadowRoot.querySelector('canvas');
+
+    if (!canvas) {
+        return;
+    }
+
+    const ctx = canvas.getContext('2d');
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 });
 
 const removeControlPoint = method((host, x, y) => {
@@ -37,7 +50,7 @@ const drawFractals = domEffect(host => {
             return;
         }
 
-        for (let i = 0; i < 500; i++) {
+        for (let i = 0; i < host.generationSpeed; i++) {
             currPos = calculateGameStep(currPos, controlPoints, jumpSize);
 
             ctx.beginPath();
@@ -67,12 +80,19 @@ const resizeCanvas = domEffect(host => {
 });
 
 
+const controlPoints = observedProp([], host => host.clear());
+const jumpSize = observedProp(0, host => host.clear());
+const generationSpeed = observedProp(500, host => host.clear());
+
+
 export const FractalViewer = {
+    clear,
     drawFractals,
     addControlPoint,
     removeControlPoint,
-    jumpSize: 0,
-    controlPoints: [],
+    jumpSize,
+    controlPoints,
+    generationSpeed,
     resizeCanvas,
     render: () => html`
         <style>
