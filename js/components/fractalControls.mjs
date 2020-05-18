@@ -26,7 +26,7 @@ const cancelContextMenu = domEffect(({ viewers }) => {
 });
 
 
-const updateDragged = listener(document, 'mousemove', (host, e) => {
+const handleMouseMove = listener(document, 'mousemove', (host, e) => {
     const { _activeViewer: viewer, _draggedPoint: point } = host;
 
     if (!viewer || !point) {
@@ -49,14 +49,14 @@ const updateDragged = listener(document, 'mousemove', (host, e) => {
 });
 
 
-const clearDragged = listener(document, 'mouseup', (host, _) => {
+const handleMouseUp = listener(document, 'mouseup', (host, _) => {
     host._activeViewer = null;
     host._draggedPoint = null;
 });
 
 
 
-const handleNewPoint = listener(document, 'mousedown', (host, e) => {
+const handleMouseDown = listener(document, 'mousedown', (host, e) => {
     if (e.which !== 1) {
         return;
     }
@@ -86,10 +86,10 @@ const reactiveViewers = {
 
         return () => {
             cleanUp();
-            window.removeEventListener('resize', invalidate)
+            window.removeEventListener('resize', invalidate);
         };
     }
-}
+};
 
 
 const renderControlPoints = viewer => {
@@ -140,9 +140,9 @@ export const FractalControls = {
     _activeViewer: null,
     _draggedPoint: null,
     cancelContextMenu,
-    updateDragged,
-    clearDragged,
-    handleNewPoint,
+    handleMouseMove,
+    handleMouseUp,
+    handleMouseDown,
     viewers: reactiveViewers,
     render: (host) => html`
         <style>
