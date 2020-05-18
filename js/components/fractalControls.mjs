@@ -76,6 +76,22 @@ const handleNewPoint = listener(document, 'mousedown', (host, e) => {
 });
 
 
+const viewers = children(FractalViewer);
+const reactiveViewers = {
+    ...viewers,
+    connect: (host, key, invalidate) => {
+        const cleanUp = viewers.connect(host, key, invalidate);
+
+        window.addEventListener('resize', invalidate);
+
+        return () => {
+            cleanUp();
+            window.removeEventListener('resize', invalidate)
+        };
+    }
+}
+
+
 const renderControlPoints = viewer => {
     const pos = viewer.getBoundingClientRect();
     const { controlPoints } = viewer;
@@ -98,7 +114,6 @@ const renderControlPoints = viewer => {
                 
                 default:
                     break;
-
             }
         };
 
@@ -128,7 +143,7 @@ export const FractalControls = {
     updateDragged,
     clearDragged,
     handleNewPoint,
-    viewers: children(FractalViewer),
+    viewers: reactiveViewers,
     render: (host) => html`
         <style>
             .unselectable {
