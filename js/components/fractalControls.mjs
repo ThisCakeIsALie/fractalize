@@ -2,7 +2,7 @@ const { html, define, children } = window.hybrids;
 import { FractalViewer } from './FractalViewer.mjs';
 import { domEffect } from './factories.mjs';
 import { listener } from './factories.mjs';
-import { CONTROL_POINT_SIZE } from '../constants.mjs';
+import { DEFAULT_POINT_SIZE } from './controlPoint.mjs';
 
 
 const cancelContextMenu = domEffect(({ viewers }) => {
@@ -120,8 +120,8 @@ const renderControlPoints = viewer => {
         const viewerTop = pos.top + window.scrollY;
         const viewerLeft = pos.left + window.scrollY;
 
-        const pointTop = offsetY - CONTROL_POINT_SIZE / 2;
-        const pointLeft = offsetX - CONTROL_POINT_SIZE / 2;
+        const pointTop = offsetY - DEFAULT_POINT_SIZE / 2;
+        const pointLeft = offsetX - DEFAULT_POINT_SIZE / 2;
 
         const style = {
             position: 'fixed',
