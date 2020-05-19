@@ -39,6 +39,13 @@ const main = async () => {
     });
 
 
+    // Manage the help text
+    const helpText = document.querySelector('#help-text');
+    document.addEventListener('mousedown', () => {
+        helpText.classList.add('hidden');
+    });
+
+
     // Make it possible to open the menu...
     const menuOpenButton = document.querySelector('#menu-open-button');
 

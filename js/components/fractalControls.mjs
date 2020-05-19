@@ -130,7 +130,7 @@ const renderControlPoints = viewer => {
         };
 
         return html`
-            <control-point class="unselectable" onmousedown=${onMouseDown} style=${style}></control-point>
+            <control-point class="unselectable fade-in" onmousedown=${onMouseDown} style=${style}></control-point>
         `;
     });
 };
@@ -152,6 +152,19 @@ export const FractalControls = {
                 -moz-user-select: none;
                 -o-user-select: none;
                 user-select: none;
+            }
+
+            .fade-in {
+                animation: fade-in-anim 0.4s ease-in-out;
+            }
+
+            @keyframes fade-in-anim {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
             }
         </style>
         <slot></slot>
