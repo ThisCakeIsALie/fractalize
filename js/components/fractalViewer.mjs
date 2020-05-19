@@ -28,6 +28,17 @@ const removeControlPoint = method((host, x, y) => {
     host.controlPoints = newPoints;
 });
 
+// Adapted from https://stackoverflow.com/questions/10673122/how-to-save-canvas-as-an-image-with-canvas-todataurl
+const snapshot = method(host => {
+    const canvas = host.shadowRoot.querySelector('canvas');
+
+    if (!canvas) {
+        return null;
+    }
+
+    return canvas.toDataURL('image/png').replace('image/octet-stream');
+});
+
 const drawFractals = domEffect(host => {
     // Once we can draw we are ready
     dispatch(host, 'ready');
@@ -53,9 +64,8 @@ const drawFractals = domEffect(host => {
         for (let i = 0; i < host.generationSpeed; i++) {
             currPos = calculateGameStep(currPos, controlPoints, jumpSize);
 
-            ctx.beginPath();
-            ctx.rect(currPos.x * width, currPos.y * height, 1, 1);
-            ctx.stroke();
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+            ctx.fillRect(currPos.x * width, currPos.y * height, 1, 1);
         }
 
     }, 50);
@@ -82,11 +92,12 @@ const resizeCanvas = domEffect(host => {
 
 const controlPoints = observedProp([], host => host.clear());
 const jumpSize = observedProp(0, host => host.clear());
-const generationSpeed = observedProp(500, host => host.clear());
+const generationSpeed = observedProp(1000, host => host.clear());
 
 
 export const FractalViewer = {
     clear,
+    snapshot,
     drawFractals,
     addControlPoint,
     removeControlPoint,
@@ -98,7 +109,6 @@ export const FractalViewer = {
         <style>
             :host {
                 display: block;
-                position: relative;
             }
 
             :host[hidden] {

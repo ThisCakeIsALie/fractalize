@@ -1,6 +1,38 @@
 body {
     margin: 0;
     padding: 0;
+
+    font-family: 'Varela Round', sans-serif;
+}
+
+#menu {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 20vw;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    transition: opacity 0.2s ease-in-out;
+    background: white;
+    box-shadow: white 2vmin 2vmin 2vmin 2vmin;
+}
+
+#menu-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: auto;
+}
+
+#camera-button {
+    cursor: pointer;
+    user-select: none;
 }
 
 .background {
@@ -12,4 +44,66 @@ body {
 
     width: 100vw;
     height: 100vh;
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.menu-slider {
+    display: inline-block;
+    width: 80%;
+}
+
+.menu-content-part {
+    margin: 1em;
+}
+
+.menu-button {
+    margin: 12px;
+    font-size: 48px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.text-icon {
+    width: 0.8em;
+    height: 0.8em;
+    vertical-align: -0.1em;
+}
+
+.usage-bar {
+    display: flex;
+    align-items: center;
+    margin-top: 1em;
+}
+
+.icon-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bottom-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin: 12px;
+}
+
+.usage-icon {
+    width: 2em;
+    height: 2em;
+}
+
+.top-gap {
+    margin-top: 4em;
 }

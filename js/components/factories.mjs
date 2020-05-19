@@ -8,7 +8,8 @@ export const domEffect = (fn, deps = []) => ({
     connect: host => {
         let cleanUp;
 
-
+        // Busy waiting right now is the only reliable method to check for an existing shadowDOM
+        // Sadly this is a shortcoming stemming from Hybridsjs design choices...
         const rootChecker = setInterval(() => {
             if (!host.shadowRoot) {
                 return;
@@ -21,10 +22,11 @@ export const domEffect = (fn, deps = []) => ({
             cleanUp = fn(host);
             clearInterval(rootChecker);
         }, 10);
-        
 
         return () => {
-            cleanUp();
+            if (cleanUp) {
+                cleanUp();
+            }
         };
     }
 });
