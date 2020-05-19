@@ -1,5 +1,5 @@
 const { html, define, children } = window.hybrids;
-import { FractalViewer } from './FractalViewer.mjs';
+import { FractalViewer } from './fractalViewer.mjs';
 import { domEffect } from './factories.mjs';
 import { listener } from './factories.mjs';
 import { DEFAULT_POINT_SIZE } from './controlPoint.mjs';
