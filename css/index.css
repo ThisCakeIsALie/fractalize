@@ -30,7 +30,7 @@ body {
     overflow: auto;
 }
 
-#camera-button {
+.icon-button {
     cursor: pointer;
     user-select: none;
 }
@@ -94,8 +94,6 @@ body {
 .menu-button {
     margin: 12px;
     font-size: 48px;
-    cursor: pointer;
-    user-select: none;
 }
 
 .text-icon {
