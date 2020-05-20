@@ -103,6 +103,11 @@ body {
     vertical-align: -0.1em;
 }
 
+.material-text-icon {
+    font-size: 1em;
+    vertical-align: -0.2em;
+}
+
 .usage-bar {
     display: flex;
     align-items: center;

@@ -1,4 +1,5 @@
-import { download } from "./util.mjs";
+import { download, randomChoice } from "./util.mjs";
+import { EXAMPLES } from "./constants.mjs";
 
 const openMenu = () => {
     document.querySelector('#menu').classList.remove('hidden');
@@ -30,6 +31,24 @@ const main = async () => {
     const generationSpeedSlider = document.querySelector('#generation-speed-slider');
     generationSpeedSlider.addEventListener('input', () => {
         viewer.generationSpeed = generationSpeedSlider.value;
+    });
+
+
+    // Manage the help text
+    let lastExample = null;
+    const exampleButton = document.querySelector('#example-button');
+    exampleButton.addEventListener('click', () => {
+        do {
+            var example = randomChoice(EXAMPLES);
+        } while (example === lastExample);
+
+        lastExample = example;
+        const { controlPoints, jumpSize } = example;
+
+        viewer.controlPoints = controlPoints;
+        viewer.jumpSize = jumpSize;
+
+        jumpSizeSlider.value = jumpSize;
     });
 
     const cameraButton = document.querySelector('#camera-button');

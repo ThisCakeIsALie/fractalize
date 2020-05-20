@@ -26,8 +26,18 @@
                 <div class="menu-content-part">
                     <header style="text-align: center">
                         <h1 style="display: inline">Fractalize</h1>
-                        <span>v1.0</span>
+                        <span>v1.1</span>
                     </header>
+                    <p>
+                        Hey there! On this site you can generate beautiful fractals using the chaos game algorithm.
+                        If you'd like to know more about it check out 
+                        <span class="material-icons material-text-icon">help_outline</span>.
+                    </p>
+                    <p>
+                        Due to the nature of the algorithm not all combinations of <control-point class="text-icon"></control-point> will look good.
+                        To check out some cool samples try out 
+                        <span class="material-icons material-text-icon">casino</span>.
+                    </p>
                     <p>
                         Drag the <control-point class="text-icon"></control-point> with your mouse to generate new fractals.
                         Or use...
@@ -41,7 +51,9 @@
                         <span>to remove a hovered <control-point class="text-icon"></control-point></span>
                     </div>
                     <p class="top-gap">
-                        <span>Change the jumping speed of the fractal points to generate even more fractals.</span>
+                        <span>
+                            Change how much the fractal patterns are attracted to the <control-point class="text-icon"></control-point>'s for different fractals.
+                        </span>
                         <div class="slider-container">
                             <span>-</span>
                             <input class="menu-slider" id="jump-size-slider" type="range" min=0 max=1 step=0.01 value=0.5></input>
@@ -60,6 +72,7 @@
                 <div class="menu-content-part" style="text-align: center;">
                     <div class="icon-bar">
                         <a href="https://www.youtube.com/watch?v=kbKtFN71Lfs" style="color: black"><span class="material-icons bottom-icon icon-button">help_outline</span></a>
+                        <span class="material-icons bottom-icon icon-button" id="example-button">casino</span>
                         <a href="https://github.com/ThisCakeIsALie/fractalize"><img class="bottom-icon" src="svg/github-mark.png"></img></a>
                         <span class="material-icons bottom-icon icon-button" id="camera-button">photo_camera</span>
                     </div>
@@ -70,7 +83,7 @@
         <p class="fade-in" id="help-text">
             Play with the <control-point class="text-icon"></control-point> to generate other fractals
             <span style="display: block">
-                Or check out <span class="material-icons text-icon" style="vertical-align: -0.2em;">menu</span> for more infos
+                Or check out <span class="material-icons material-text-icon">menu</span> for more infos
             </span>
         </p>
     </body>
