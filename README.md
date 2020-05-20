@@ -1,5 +1,5 @@
 # Fractalize
-Fractalize is a small website for generating fractals using the chaos game method. You can check otu the live version [here](https://thiscakeisalie.github.io/fractalize/).
+Fractalize is a small website for generating fractals using the chaos game method. You can check out the live version [here](https://thiscakeisalie.github.io/fractalize/).
 
 Fractalize is built using web components and as such is pretty easy to hack and manipulate. If you feel like it open the website and spin up your DevTools console alongside it.
 
