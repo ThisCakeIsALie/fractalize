@@ -4,7 +4,6 @@ import { domEffect } from './factories.mjs';
 import { listener } from './factories.mjs';
 import { DEFAULT_POINT_SIZE } from './controlPoint.mjs';
 
-
 const cancelContextMenu = domEffect(({ viewers }) => {
     const listeners = [];
 
@@ -57,22 +56,48 @@ const handleMouseUp = listener(document, 'mouseup', (host, _) => {
 
 
 const handleMouseDown = listener(document, 'mousedown', (host, e) => {
-    if (e.which !== 1) {
-        return;
-    }
-    
     if (!host.viewers.includes(e.target)) {
         return;
     }
 
     const viewer = e.target;
 
-    const newPoint = {
-        x: e.offsetX / viewer.offsetWidth,
-        y: e.offsetY / viewer.offsetHeight,
+
+    const screenDistance = (point1, point2) => {
+        const xDiff = (point2.x - point1.x) * viewer.offsetWidth;
+        const yDiff = (point2.y - point1.y) * viewer.offsetHeight;
+
+        return Math.sqrt(xDiff**2 + yDiff**2);
     };
 
-    viewer.addControlPoint(newPoint.x, newPoint.y);
+    const mousePoint = {
+        x: e.offsetX / viewer.offsetWidth,
+        y: e.offsetY / viewer.offsetHeight,
+    }
+
+    const overlappingPoints = viewer.controlPoints.filter(point => screenDistance(point, mousePoint) < DEFAULT_POINT_SIZE / 2);
+    const selectedPoint = overlappingPoints[overlappingPoints.length - 1];
+
+    switch (e.which) {
+        case 1:
+            if (selectedPoint) {
+                viewer.removeControlPoint(selectedPoint.x, selectedPoint.y);
+            }
+            viewer.addControlPoint(mousePoint.x, mousePoint.y);
+
+            host._activeViewer = viewer;
+            host._draggedPoint = mousePoint;
+            break;
+
+        case 3:
+            if (selectedPoint) {
+                viewer.removeControlPoint(selectedPoint.x, selectedPoint.y);
+            }
+            break;
+        
+        default:
+            break;
+    }
 });
 
 
@@ -97,25 +122,8 @@ const renderControlPoints = viewer => {
     const { controlPoints } = viewer;
 
     return controlPoints.map(point => {
-
         const offsetX = point.x * pos.width;
         const offsetY = point.y * pos.height;
-
-        const onMouseDown = (host, evt) => {
-            switch (evt.which) {
-                case 1:
-                    host._activeViewer = viewer;
-                    host._draggedPoint = point;
-                    break;
-
-                case 3:
-                    viewer.removeControlPoint(point.x, point.y);
-                    break;
-                
-                default:
-                    break;
-            }
-        };
 
         const viewerTop = pos.top + window.scrollY;
         const viewerLeft = pos.left + window.scrollY;
@@ -130,7 +138,7 @@ const renderControlPoints = viewer => {
         };
 
         return html`
-            <control-point class="unselectable fade-in" onmousedown=${onMouseDown} style=${style}></control-point>
+            <control-point class="unselectable fade-in" style=${style}></control-point>
         `;
     });
 };
@@ -152,6 +160,7 @@ export const FractalControls = {
                 -moz-user-select: none;
                 -o-user-select: none;
                 user-select: none;
+                pointer-events: none;
             }
 
             .fade-in {

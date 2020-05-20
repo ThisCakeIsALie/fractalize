@@ -23,7 +23,11 @@ const clear = method(host => {
 
 const removeControlPoint = method((host, x, y) => {
     const oldPoints = host.controlPoints;
-    const newPoints = oldPoints.filter(point => point.x !== x || point.y !== y);
+
+    // We select a specific point to remove if there are multiple points
+    // at x and y
+    const targetPoint = oldPoints.find(point => point.x == x && point.y == y);
+    const newPoints = oldPoints.filter(point => point !== targetPoint);
 
     host.controlPoints = newPoints;
 });
@@ -87,7 +91,7 @@ const resizeCanvas = domEffect(host => {
     window.addEventListener('resize', listener);
 
     return () => window.removeEventListener('resize', listener);
-});
+}, [ 'canvas' ]);
 
 
 const controlPoints = observedProp([], host => host.clear());
