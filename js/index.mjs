@@ -74,6 +74,12 @@ const main = async () => {
     const menuCloseButton = document.querySelector('#menu-close-button');
 
     menuCloseButton.addEventListener('click', closeMenu);
+
+
+    // Finally tell em developers that stumble upon the console how to hack on this.
+    console.log('Oh hi! You made it :)');
+    console.log('Did you know that you can easily control the fractals from this very browser console and a bit of JS?');
+    console.log('To get started check out the github readme at https://github.com/ThisCakeIsALie/fractalize');
 };
 
 main();
