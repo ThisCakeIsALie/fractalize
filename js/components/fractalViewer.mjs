@@ -94,9 +94,9 @@ const resizeCanvas = domEffect(host => {
 }, [ 'canvas' ]);
 
 
-const controlPoints = observedProp([], host => host.clear());
-const jumpSize = observedProp(0, host => host.clear());
-const generationSpeed = observedProp(1000, host => host.clear());
+const controlPoints = observedProp([], host => host.selfCleaning && host.clear());
+const jumpSize = observedProp(0, host => host.selfCleaning && host.clear());
+const generationSpeed = observedProp(1000, host => host.selfCleaning && host.clear());
 
 
 export const FractalViewer = {
@@ -108,6 +108,7 @@ export const FractalViewer = {
     jumpSize,
     controlPoints,
     generationSpeed,
+    selfCleaning: false,
     resizeCanvas,
     render: () => html`
         <style>
