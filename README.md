@@ -1,6 +1,7 @@
  <p align="center"> 
     <img src="./logo.png" alt="logo">
  </p>
+
 Fractalize is a small website for generating fractals using the chaos game method. You can check out the live version [here](https://thiscakeisalie.github.io/fractalize/).
 
 Fractalize is built using web components and is designed to be easy to hack and manipulate. Go ahead and open the website and spin up your DevTools!
